@@ -6,7 +6,6 @@
           <span class="name" v-html="filter"></span>
           <span class="color">{{list.caseType}}</span>
           <span class="color">{{list.docType}}</span>
-         
         </dt>
         <dd style="color:rgba(0,0,0,0.45);">{{list.courtName}} &nbsp;&nbsp; |&nbsp;&nbsp;{{list.trialRound}} 
           &nbsp;&nbsp; | &nbsp;&nbsp;{{list.caseNumber}}&nbsp;&nbsp; | &nbsp;&nbsp;{{list.judgementDate}}
@@ -14,9 +13,9 @@
         <dd style="color:#333;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;" v-html="filterContent"></dd>
       </dl>
     </a>
-     <button @click="useful(q_id, list)" class="usefulButton"> 
+     <button @click="useful(q_id, list)" id="usefulButton" > 
            &nbsp;&nbsp;&nbsp;有用</button>
-          <button @click="unuseful(q_id, list)" class="unusefulButton">
+          <button @click="unuseful(q_id, list)" id="unusefulButton">
           </button>
   </div>
 </template>
@@ -51,6 +50,8 @@ export default {
    methods: {
      //有用信息反馈
      useful(q_id, doc){
+       $("Button").css("cursor","not-allowed");
+      // document.getElementById(usefulButton).style.cursor=not-allowed; 
         this.$http.post('/judgement/feedback',
         {"q_id":q_id,"doc_id":doc.id,"is_useful":'1' },{emulateJSON : true}).then(res => {
          }).catch(err =>  {
@@ -60,6 +61,7 @@ export default {
      },
      //无用信息反馈
      unuseful(q_id,doc){
+        //$("button").css("cursor","not-allowed");
         this.$http.post('/judgement/feedback',
         {"q_id":q_id,"doc_id":doc.id,"is_useful":'0' },{emulateJSON : true}).then(res => {
          }).catch(err =>  {
@@ -113,7 +115,7 @@ export default {
       margin-top: 15px;
     }
   }
-  .usefulButton{
+  #usefulButton{
         position: absolute;
         top:16px;
         right: 58px;
@@ -131,8 +133,8 @@ export default {
         &:hover {
         background:#1890FF  ;
         color: #FFFFFF ;
-         background-image: url(../assets/images/el-icon-caret-top.svg);
-         background-repeat: no-repeat;
+        background-image: url(../assets/images/el-icon-caret-top.svg);
+        background-repeat: no-repeat;
         background-position:10px center;
         }
         &:onMouseDown{
@@ -143,7 +145,7 @@ export default {
         background-position:10px center;
         }
        }
-        .unusefulButton{
+        #unusefulButton{
         position: absolute;
         top:16px;
         right: 24px;

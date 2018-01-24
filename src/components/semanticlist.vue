@@ -94,7 +94,6 @@ export default {
       }
       },
   methods: {
-    
     // 初始化数据列表
       init() { 
       },
@@ -116,7 +115,7 @@ export default {
         list.style.cssText='display:block';
         // this.$options.methods.inquire(10).bind(this)();
          this.$http.post('/judgement/AI',
-        {"search":this.input , "offset":0,"top_n": 10,},{emulateJSON : true}).then(res => {
+        {"search":this.input , "offset":0,"top_n": 5,},{emulateJSON : true}).then(res => {
          // 响应成功回调
         this.doc_list = res.data.data.doc_list;
         console.log(this.doc_list);
@@ -150,12 +149,10 @@ export default {
       });
     },*/
     //得到更多按钮功能
-    
     getMore(){
      /*  var times = 20;
       this.$options.methods.countClickedTimes(times).bind(this)();
       this.$options.methods.inquire(times).bind(this)(); */
-     
       this.$http.post('/judgement/AI',
         {"search":this.input ,"offset":this.start,"top_n":this.end},{emulateJSON : true}).then(res => {
         // 响应成功回调
@@ -330,6 +327,7 @@ export default {
         background: rgba(0, 0, 0, 0.04);
         border: 1px solid rgba(0, 0, 0, 0.09);
         border-radius: 4px;
+        cursor: pointer !important;
         }
         .icon {
           position: absolute;
