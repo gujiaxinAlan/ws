@@ -13,9 +13,9 @@
         <dd style="color:#333;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;" v-html="filterContent"></dd>
       </dl>
     </a>
-     <button @click="useful(q_id, list)" id="usefulButton" > 
+     <button @click="useful(q_id, list)" id="usefulButton" name="btn"> 
            &nbsp;&nbsp;&nbsp;有用</button>
-          <button @click="unuseful(q_id, list)" id="unusefulButton">
+          <button @click="unuseful(q_id, list)" id="unusefulButton" name="btn">
           </button>
   </div>
 </template>
@@ -50,8 +50,14 @@ export default {
    methods: {
      //有用信息反馈
      useful(q_id, doc){
-       $("Button").css("cursor","not-allowed");
-      // document.getElementById(usefulButton).style.cursor=not-allowed; 
+     //  $("Button").css("cursor","not-allowed");
+      // document.getElementById(usefulButton).style.cursor=not-allowed;
+      var btns = document.getElementsByName("btn");
+            for (var i=0;i<btns.length;i++){
+                btns[i].onclick = function(){
+                $(this).css("cursor","not-allowed");
+                };
+            } 
         this.$http.post('/judgement/feedback',
         {"q_id":q_id,"doc_id":doc.id,"is_useful":'1' },{emulateJSON : true}).then(res => {
          }).catch(err =>  {
@@ -62,6 +68,12 @@ export default {
      //无用信息反馈
      unuseful(q_id,doc){
         //$("button").css("cursor","not-allowed");
+        var btns = document.getElementsByName("btn");
+            for (var i=0;i<btns.length;i++){
+                btns[i].onclick = function(){
+                 $(this).css("cursor","not-allowed");
+                };
+            } 
         this.$http.post('/judgement/feedback',
         {"q_id":q_id,"doc_id":doc.id,"is_useful":'0' },{emulateJSON : true}).then(res => {
          }).catch(err =>  {

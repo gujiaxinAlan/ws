@@ -81,12 +81,14 @@ export default {
       data:'',
       q_id:'',
       doc_list:[],
-      start: 10,
-      end: 20
+      start: '',
+      end:'' ,
+      btns:[]
     };
   },
 //      this.$refs.header.rewrite(this.$route.params.keywords);
     mounted() {
+       
       if (window.sessionStorage.getItem('content')) {
         this.listData = JSON.parse(window.sessionStorage.getItem('content'));
          } else {
