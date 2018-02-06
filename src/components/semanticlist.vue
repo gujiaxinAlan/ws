@@ -81,8 +81,8 @@ export default {
       data:'',
       q_id:'',
       doc_list:[],
-      start: '',
-      end:'' ,
+      start: 0,
+      end:5 ,
       btns:[]
     };
   },
@@ -93,7 +93,8 @@ export default {
         this.listData = JSON.parse(window.sessionStorage.getItem('content'));
          } else {
         this.init();
-      }
+      };
+      
       },
   methods: {
     // 初始化数据列表
@@ -124,6 +125,8 @@ export default {
         this.q_id = res.data.data.q_id;
         console.log(this.q_id);
        window.sessionStorage.setItem('content', JSON.stringify(this.listData));
+       this.start = this.end;
+       this.end += 5;
       }).catch(err =>  {
         console.log(err);
          // 响应错误回调    
@@ -135,22 +138,6 @@ export default {
         }); 
       }
     },
-//查询函数
-     /*  inquire(times){
-        this.$http.post('/judgement/AI',
-        {"search":this.input , "top_n": times},{emulateJSON : true}).then(res => {
-        // 响应成功回调
-       this.doc_list = res.data.data.doc_list;
-        console.log(this.doc_list);
-        this.q_id = res.data.data.q_id;
-        console.log(this.q_id);
-       window.sessionStorage.setItem('content', JSON.stringify(this.listData));
-      }).catch(err =>  {
-        console.log(err);
-        // 响应错误回调    
-      });
-    },*/
-    //得到更多按钮功能
     getMore(){
      /*  var times = 20;
       this.$options.methods.countClickedTimes(times).bind(this)();

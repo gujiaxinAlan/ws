@@ -13,7 +13,8 @@
         <dd style="color:#333;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;" v-html="filterContent"></dd>
       </dl>
     </a>
-     <button @click="useful(q_id, list)" id="usefulButton" name="btn"> 
+    <div></div>
+     <button @click="useful(q_id, list)"  id="usefulButton" name="btn"> 
            &nbsp;&nbsp;&nbsp;有用</button>
           <button @click="unuseful(q_id, list)" id="unusefulButton" name="btn">
           </button>
@@ -34,9 +35,15 @@ export default {
       type: String,
       default() {
         return {};
+        }
       }
-    }
-  },
+    },
+    date(){
+      return{
+        mid:'',
+        btns:[],
+      }
+    },
   computed: {
       filter() {
         let keywords = window.sessionStorage.getItem('keywords');
@@ -47,17 +54,34 @@ export default {
         return this.list.content.replace(keywords, `<span style="color:red;font-weight: bold">${keywords}</span>`);
       }
   },
+    mounted() {
+       //this. usefulClick();
+       var btns = document.getElementsByName("btn");
+        for (var i=0;i<btns.length;i++){
+                btns[i].onclick = function(){
+                  $(this).css("cursor","not-allowed");
+                  $(this.previousElementSibling).css("cursor","not-allowed");
+                  $(this.nextElementSibling).css("cursor","not-allowed");
+                };
+            }  
+    },
    methods: {
      //有用信息反馈
      useful(q_id, doc){
-     //  $("Button").css("cursor","not-allowed");
+     //$("Button").css("cursor","not-allowed");
       // document.getElementById(usefulButton).style.cursor=not-allowed;
-      var btns = document.getElementsByName("btn");
-            for (var i=0;i<btns.length;i++){
-                btns[i].onclick = function(){
+      /*   var btns = document.getElementsByName("btn");        
+      for (var i=0;i<btns.length;i++){
+             //btns[i].onclick = this.$options.methods.usefulClick;
+          
+              btns[i].onclick= function(){
                 $(this).css("cursor","not-allowed");
-                };
-            } 
+                $(this.nextElementSibling).css("cursor","not-allowed");
+                console.log(this);
+               //console.log(this.nextElementSibling); 
+                } 
+               //btns[i].onclick();
+          };  */        
         this.$http.post('/judgement/feedback',
         {"q_id":q_id,"doc_id":doc.id,"is_useful":'1' },{emulateJSON : true}).then(res => {
          }).catch(err =>  {
@@ -65,15 +89,29 @@ export default {
          // 响应错误回调    
       });
      },
+    /*  usefulClick(){
+        var btns = document.getElementsByName("btn");
+            for (var i=0;i<btns.length;i++){
+              btns[i].onclick = this.$options.methods.usefulClick;
+        // var btns = document.getElementsByName("btn");
+               // console.log(btns);
+                $(this).css("cursor","not-allowed");
+                $(this.nextElementSibling).css("cursor","not-allowed");
+                   
+            }
+     }, */
      //无用信息反馈
      unuseful(q_id,doc){
         //$("button").css("cursor","not-allowed");
-        var btns = document.getElementsByName("btn");
+      /*   var btns = document.getElementsByName("btn");
             for (var i=0;i<btns.length;i++){
                 btns[i].onclick = function(){
-                 $(this).css("cursor","not-allowed");
+                  $(this).css("cursor","not-allowed");
+                  $(this.previousElementSibling).css("cursor","not-allowed");
+                  console.log(this);
+                  console.log(this.previousElementSibling);
                 };
-            } 
+            }  */
         this.$http.post('/judgement/feedback',
         {"q_id":q_id,"doc_id":doc.id,"is_useful":'0' },{emulateJSON : true}).then(res => {
          }).catch(err =>  {
@@ -92,13 +130,16 @@ export default {
   position: relative;
   font-family: PingFangSC-Regular;
   width: 100%;
-
   padding: 20px;
   border: 1px solid #ddd;
   transition: all 0.8s linear;
+  cursor: hand ;
   &:hover {
-    cursor: pointer;
+     cursor: hand;
     box-shadow: 0 1px 4px 0  rgba(0,0,0,0.12);
+  }
+  a{
+    cursor: hand;
   }
   dl {
     dt {
